@@ -45,7 +45,7 @@ export function startRunner(
     void runRequests(runs, output, sessionId).catch((error: unknown) => {
       const message = error instanceof Error ? error.message : String(error);
       output.appendLine(`Failed batch: ${message}`);
-      void vscode.window.showErrorMessage(`Project Runner failed: ${message}`);
+      void vscode.window.showErrorMessage(`Project Dispatch failed: ${message}`);
     });
   }, 400);
 
@@ -187,7 +187,7 @@ export async function runRequests(
       const message = error instanceof Error ? error.message : String(error);
       output.appendLine(`Failed: ${message}`);
       void vscode.window.showErrorMessage(
-        `Project Runner failed in ${request.folderName}: ${message}`
+        `Project Dispatch failed in ${request.folderName}: ${message}`
       );
     }
   }
@@ -196,7 +196,7 @@ export async function runRequests(
 }
 
 export function terminalName(folderPath: string): string {
-  return `Project Runner · ${path.basename(folderPath)}`;
+  return `Project Dispatch · ${path.basename(folderPath)}`;
 }
 
 function shouldSplit(): boolean {

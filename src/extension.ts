@@ -6,7 +6,7 @@ import { startStatusTracker } from "./status";
 
 export function activate(context: vscode.ExtensionContext): void {
   const sessionId = vscode.env.sessionId;
-  const output = vscode.window.createOutputChannel("Project Runner");
+  const output = vscode.window.createOutputChannel("Project Dispatch");
   const registry = startRegistry(sessionId);
   const panel = new ProjectPanel(sessionId, output);
 

@@ -30,7 +30,7 @@ export async function focusProject(options: {
 }
 
 export function revealLocalTerminal(folderPath: string): boolean {
-  const name = `Project Runner · ${path.basename(folderPath)}`;
+  const name = `Project Dispatch · ${path.basename(folderPath)}`;
   const terminal = vscode.window.terminals.find((item) => item.name === name);
   if (!terminal) {
     return false;

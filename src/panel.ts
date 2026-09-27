@@ -96,7 +96,7 @@ export class ProjectPanel implements vscode.WebviewViewProvider {
 
     const items = (message.items ?? []).filter((item) => item.command?.trim() && item.folderPath);
     if (!items.length) {
-      void vscode.window.showWarningMessage("Project Runner: select a project and enter a command.");
+      void vscode.window.showWarningMessage("Project Dispatch: select a project and enter a command.");
       return;
     }
 
@@ -110,7 +110,7 @@ export class ProjectPanel implements vscode.WebviewViewProvider {
           local.push(item);
         } else if (!isOnline(item.sessionId)) {
           void vscode.window.showWarningMessage(
-            `Project Runner: ${item.folderName} is not responding. Keep that window open with this extension installed.`
+            `Project Dispatch: ${item.folderName} is not responding. Keep that window open with this extension installed.`
           );
         } else {
           remote.push(item);
@@ -154,7 +154,7 @@ export class ProjectPanel implements vscode.WebviewViewProvider {
         parts.push(`${remote.length} sent to other windows`);
       }
       if (parts.length) {
-        void vscode.window.showInformationMessage(`Project Runner: ${parts.join(", ")}.`);
+        void vscode.window.showInformationMessage(`Project Dispatch: ${parts.join(", ")}.`);
       }
       this.refresh();
     } finally {
@@ -171,7 +171,7 @@ export class ProjectPanel implements vscode.WebviewViewProvider {
 
     const selected = items.filter((item) => item.folderPath);
     if (!selected.length) {
-      void vscode.window.showWarningMessage("Project Runner: select a project to stop.");
+      void vscode.window.showWarningMessage("Project Dispatch: select a project to stop.");
       return;
     }
 
@@ -185,7 +185,7 @@ export class ProjectPanel implements vscode.WebviewViewProvider {
           local.push(item);
         } else if (!isOnline(item.sessionId)) {
           void vscode.window.showWarningMessage(
-            `Project Runner: ${item.folderName} is not responding. Keep that window open with this extension installed.`
+            `Project Dispatch: ${item.folderName} is not responding. Keep that window open with this extension installed.`
           );
         } else {
           enqueue({
@@ -211,9 +211,9 @@ export class ProjectPanel implements vscode.WebviewViewProvider {
         parts.push(`stop sent to ${remote} other window project${remote === 1 ? "" : "s"}`);
       }
       if (parts.length) {
-        void vscode.window.showInformationMessage(`Project Runner: ${parts.join(", ")}.`);
+        void vscode.window.showInformationMessage(`Project Dispatch: ${parts.join(", ")}.`);
       } else {
-        void vscode.window.showWarningMessage("Project Runner: no matching terminals were open.");
+        void vscode.window.showWarningMessage("Project Dispatch: no matching terminals were open.");
       }
       this.refresh();
     } finally {
@@ -248,7 +248,7 @@ export class ProjectPanel implements vscode.WebviewViewProvider {
 
     if (!item.isCurrent && !focused) {
       void vscode.window.showWarningMessage(
-        `Project Runner: could not bring "${item.folderName}" to the front. Check that the window title contains the project name.`
+        `Project Dispatch: could not bring "${item.folderName}" to the front. Check that the window title contains the project name.`
       );
     }
   }
@@ -262,7 +262,7 @@ function html(cspSource: string): string {
   <meta charset="UTF-8" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}';" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Project Runner</title>
+  <title>Project Dispatch</title>
   <style>
     body {
       margin: 0;
@@ -398,7 +398,7 @@ function html(cspSource: string): string {
 </head>
 <body>
   <header>
-    <h1>Project Runner</h1>
+    <h1>Project Dispatch</h1>
     <div id="status">Looking for windows…</div>
   </header>
   <div class="toolbar">
@@ -414,7 +414,7 @@ function html(cspSource: string): string {
     <button id="run" class="primary" type="button">Run selected</button>
     <button id="stop" class="danger" type="button">Stop selected</button>
   </div>
-  <p class="hint">Click a project name to bring that VS Code/Cursor window to the front. Error projects show a warning icon. Stop closes their Project Runner terminals.</p>
+  <p class="hint">Click a project name to bring that VS Code/Cursor window to the front. Error projects show a warning icon. Stop closes their Project Dispatch terminals.</p>
   <script nonce="${nonce}">
     const vscode = acquireVsCodeApi();
     const list = document.getElementById("list");
@@ -498,7 +498,7 @@ function html(cspSource: string): string {
 
       capture();
       if (!projects.length) {
-        list.innerHTML = '<p class="empty">No open folder yet. Open a project folder in any window where Project Runner is installed.</p>';
+        list.innerHTML = '<p class="empty">No open folder yet. Open a project folder in any window where Project Dispatch is installed.</p>';
         status.textContent = "0 projects";
         return;
       }
