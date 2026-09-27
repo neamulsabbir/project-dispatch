@@ -264,8 +264,16 @@ function html(cspSource: string): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Project Dispatch</title>
   <style>
+    html, body {
+      height: 100%;
+    }
     body {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
       margin: 0;
+      overflow: hidden;
       padding: 10px;
       color: var(--vscode-foreground);
       font-family: var(--vscode-font-family);
@@ -273,6 +281,7 @@ function html(cspSource: string): string {
     }
     header {
       display: flex;
+      flex-shrink: 0;
       justify-content: space-between;
       align-items: baseline;
       gap: 8px;
@@ -289,10 +298,22 @@ function html(cspSource: string): string {
     #status, .hint { font-size: 11px; }
     .toolbar, .actions, .run-row {
       display: flex;
+      flex-shrink: 0;
       gap: 6px;
       margin-bottom: 8px;
     }
-    .run-row { margin-top: 4px; margin-bottom: 0; }
+    .scroll {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+    }
+    .run-row {
+      margin-top: 8px;
+      margin-bottom: 0;
+      padding-top: 8px;
+      border-top: 1px solid var(--vscode-panel-border, transparent);
+      background: var(--vscode-sideBar-background);
+    }
     .fill-input, .cmd {
       width: 100%;
       box-sizing: border-box;
@@ -393,7 +414,7 @@ function html(cspSource: string): string {
     }
     .cmd { margin-top: 6px; }
     .empty { line-height: 1.45; }
-    .hint { line-height: 1.45; margin-top: 10px; }
+    .hint { line-height: 1.45; margin: 10px 0 0; }
   </style>
 </head>
 <body>
@@ -409,12 +430,14 @@ function html(cspSource: string): string {
     <button id="selectAll" class="secondary" type="button">Select all</button>
     <button id="refresh" class="secondary" type="button">Refresh</button>
   </div>
-  <div id="list"></div>
+  <div class="scroll">
+    <div id="list"></div>
+    <p class="hint">Click a project name to bring that VS Code/Cursor window to the front. Error projects show a warning icon. Stop closes their Project Dispatch terminals.</p>
+  </div>
   <div class="run-row">
     <button id="run" class="primary" type="button">Run selected</button>
     <button id="stop" class="danger" type="button">Stop selected</button>
   </div>
-  <p class="hint">Click a project name to bring that VS Code/Cursor window to the front. Error projects show a warning icon. Stop closes their Project Dispatch terminals.</p>
   <script nonce="${nonce}">
     const vscode = acquireVsCodeApi();
     const list = document.getElementById("list");
