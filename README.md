@@ -4,6 +4,8 @@ Run one command across every project you already have open.
 
 When several apps are running locally — an API, a web app, a worker — each one lives in its own VS Code or Cursor window. Starting or stopping them means finding each window and typing the same kind of command again. Project Dispatch puts those folders in one list so you can start, stop, and check them together.
 
+![Project Dispatch listing open projects and running a command in each one](images/project-dispatch.jpg)
+
 ## What it does
 
 - Lists every folder open in a VS Code or Cursor window where this extension is installed.
