@@ -1,5 +1,5 @@
 {
-  "name": "project-runner",
+  "name": "project-dispatch",
   "displayName": "Project Runner",
   "description": "See every open VS Code or Cursor window, pick projects, and run a command in each selected terminal.",
   "version": "0.4.0",
@@ -8,7 +8,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/neamulsabbir/project-runner"
+    "url": "https://github.com/neamulsabbir/project-dispatch"
   },
   "engines": {
     "vscode": "^1.93.0"
