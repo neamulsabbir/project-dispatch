@@ -1,0 +1,68 @@
+{
+  "name": "project-runner",
+  "displayName": "Project Runner",
+  "description": "See every open VS Code or Cursor window, pick projects, and run a command in each selected terminal.",
+  "version": "0.4.0",
+  "publisher": "local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "projectRunner",
+          "title": "Project Runner",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "projectRunner": [
+        {
+          "type": "webview",
+          "id": "projectRunner.panel",
+          "name": "Projects",
+          "retainContextWhenHidden": true
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "projectRunner.refresh",
+        "title": "Project Runner: Refresh Projects"
+      }
+    ],
+    "configuration": {
+      "title": "Project Runner",
+      "properties": {
+        "projectRunner.splitTerminals": {
+          "type": "boolean",
+          "default": true,
+          "description": "When multiple selected projects belong to the same window, open their terminals side by side."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "@types/vscode": "^1.93.0",
+    "@vscode/vsce": "^3.6.0",
+    "typescript": "^5.6.3"
+  }
+}
+
+
