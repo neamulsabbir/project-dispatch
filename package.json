@@ -3,8 +3,13 @@
   "displayName": "Project Runner",
   "description": "See every open VS Code or Cursor window, pick projects, and run a command in each selected terminal.",
   "version": "0.4.0",
-  "publisher": "local",
+  "icon": "media/extensionicon.png",
+  "publisher": "neamulsabbir",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neamulsabbir/project-runner"
+  },
   "engines": {
     "vscode": "^1.93.0"
   },
@@ -55,7 +60,7 @@
   "scripts": {
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "package": "vsce package --allow-missing-repository"
+    "package": "vsce package"
   },
   "devDependencies": {
     "@types/node": "^20.17.0",
