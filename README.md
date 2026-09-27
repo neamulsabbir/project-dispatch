@@ -4,6 +4,8 @@ Run one command across every project you already have open.
 
 When several apps are running locally — an API, a web app, a worker — each one lives in its own VS Code or Cursor window. Starting or stopping them means finding each window and typing the same kind of command again. Project Dispatch puts those folders in one list so you can start, stop, and check them together.
 
+You stay in one window and run every selected project from there. Each command starts in that project's own terminal, and the list shows whether it is running, finished, or failed. A saved command is filled in the next time that project is open, and clicking its name brings that window to the front.
+
 ![Project Dispatch listing open projects and running a command in each one](images/project-dispatch.jpg)
 
 ## What it does
