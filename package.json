@@ -2,7 +2,7 @@
   "name": "project-dispatch",
   "displayName": "Project Dispatch",
   "description": "See every open VS Code or Cursor window, pick projects, and run a command in each selected terminal.",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "icon": "media/extensionicon.png",
   "publisher": "neamulsabbir",
   "license": "MIT",

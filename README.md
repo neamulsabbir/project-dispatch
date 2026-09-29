@@ -14,7 +14,7 @@ You stay in one window and run every selected project from there. Each command s
 - Fills in a start command when a project has a `dev`, `start`, or `serve` script in `package.json`. The package manager comes from the lockfile: Bun, pnpm, Yarn, or npm.
 - Keeps a command you type yourself, so the next time that project appears it is already filled in.
 - Runs the selected commands in each project's own terminal. A terminal is named `Project Dispatch · folder-name`. Running again closes that terminal and starts the command over.
-- Shows a live status beside each project: `starting`, `running`, `done`, `error`, or `stopped`. With shell integration, success and failure follow the exit code.
+- Shows a live status beside each project: `starting`, `running`, `done`, `error`, or `stopped`. A command you start or stop yourself in that project's terminal updates the status too. With shell integration, success and failure follow the exit code.
 - Opens side-by-side terminals when several selected projects belong to the same window. Turn this off with the `projectRunner.splitTerminals` setting.
 - Brings a project's window to the front when you click its name.
 
@@ -29,6 +29,16 @@ You stay in one window and run every selected project from there. Each command s
 7. Click a project name to switch to its window.
 
 The list refreshes on its own. **Refresh** reloads it immediately. A project that does not respond still needs its window open, with this extension installed.
+
+## 0.4.4
+
+Status now follows the project's own terminal, not only **Run selected** and **Stop selected**.
+
+- Starting a command yourself in that project's terminal sets the row to `running`.
+- Stopping it with Ctrl+C, or closing the terminal, sets the row to `stopped`.
+- A command that finishes on its own shows `done`. A non-zero exit shows `error`.
+
+Shell integration has to be enabled in that window. VS Code and Cursor turn it on by default.
 
 ## Requirements
 

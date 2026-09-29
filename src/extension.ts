@@ -13,7 +13,7 @@ export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
     output,
     registry,
-    startStatusTracker(),
+    startStatusTracker(sessionId),
     startRunner(sessionId, output),
     vscode.window.registerWebviewViewProvider("projectRunner.panel", panel, {
       webviewOptions: { retainContextWhenHidden: true },

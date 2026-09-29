@@ -90,12 +90,14 @@ export function trackTerminal(
   });
 }
 
-export function startStatusTracker(): vscode.Disposable {
+export function startStatusTracker(sessionId: string): vscode.Disposable {
   const startSub = vscode.window.onDidStartTerminalShellExecution((event) => {
-    const info = tracked.get(event.terminal);
+    const command = event.execution.commandLine.value.trim();
+    const info = resolveTerminal(event.terminal, event.execution.cwd, sessionId, command);
     if (!info) {
       return;
     }
+    tracked.set(event.terminal, info);
     markStatus({
       ...info,
       kind: "running",
@@ -103,16 +105,15 @@ export function startStatusTracker(): vscode.Disposable {
   });
 
   const endSub = vscode.window.onDidEndTerminalShellExecution((event) => {
-    const info = tracked.get(event.terminal);
+    const command = event.execution.commandLine.value.trim();
+    const info = resolveTerminal(event.terminal, event.execution.cwd, sessionId, command);
     if (!info) {
       return;
     }
     const exitCode = event.exitCode;
-    const kind: RunStatusKind =
-      exitCode === undefined ? "stopped" : exitCode === 0 ? "success" : "error";
     markStatus({
       ...info,
-      kind,
+      kind: statusForExit(exitCode),
       exitCode,
     });
   });
@@ -140,6 +141,71 @@ export function startStatusTracker(): vscode.Disposable {
       tracked.clear();
     },
   };
+}
+
+function resolveTerminal(
+  terminal: vscode.Terminal,
+  cwd: vscode.Uri | undefined,
+  sessionId: string,
+  command: string
+): TrackedTerminal | undefined {
+  const known = tracked.get(terminal);
+  const folder = folderForCwd(cwd ?? terminal.shellIntegration?.cwd);
+  if (known) {
+    return {
+      ...known,
+      command: command || known.command,
+    };
+  }
+  if (!folder || !command) {
+    return undefined;
+  }
+  return {
+    folderPath: folder.folderPath,
+    folderName: folder.folderName,
+    sessionId,
+    command,
+  };
+}
+
+function folderForCwd(cwd: vscode.Uri | undefined): { folderPath: string; folderName: string } | undefined {
+  if (!cwd?.fsPath) {
+    return undefined;
+  }
+  const target = folderKey(cwd.fsPath);
+  let best: vscode.WorkspaceFolder | undefined;
+  for (const folder of vscode.workspace.workspaceFolders ?? []) {
+    const key = folderKey(folder.uri.fsPath);
+    const prefix = key.endsWith(path.sep) ? key : `${key}${path.sep}`;
+    if (target !== key && !target.startsWith(prefix)) {
+      continue;
+    }
+    if (!best || folder.uri.fsPath.length > best.uri.fsPath.length) {
+      best = folder;
+    }
+  }
+  if (!best) {
+    return undefined;
+  }
+  return {
+    folderPath: best.uri.fsPath,
+    folderName: best.name,
+  };
+}
+
+function statusForExit(exitCode: number | undefined): RunStatusKind {
+  if (exitCode === 0) {
+    return "success";
+  }
+  if (
+    exitCode === undefined ||
+    exitCode === 130 ||
+    exitCode === 143 ||
+    exitCode === 3221225786
+  ) {
+    return "stopped";
+  }
+  return "error";
 }
 
 function statusPath(folderPath: string): string {
